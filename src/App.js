@@ -122,7 +122,7 @@ function About(props) {
 
   const removeTodoCard = (todoCardId) => {
     console.log("sile basıldı");
-
+    console.log(todoCardId);
     // let index=items.findIndex(id => id === todoCardId);
     // let newList=items.splice(index+2,1);
     setItems(items.filter((item) => item.id !== Number(todoCardId)));
@@ -150,6 +150,7 @@ function About(props) {
           </Typography>
         </CardContent>
       </Card>
+      {/**Creates a ToDoCard with items as an array which has {id:number} structure. Also sends the removeTodoCard function to delete the particular Card.  */}
       <div>
         <TodoCard items={items} removeTodoCard={removeTodoCard} />
       </div>
@@ -164,12 +165,14 @@ function About(props) {
     </div>
   );
 }
+      {/**The TodoCard function is here. Takes items and removeTodoCard as props ans uses them here. */}
 
 function TodoCard({ items, removeTodoCard }) {
   useEffect(() => {
     console.log("value changed");
   }, [items.length]);
-
+      {/**I first thought when the array's length changes, it should re-render the app to get array's new state. */}
+console.log(items);
   return (
     <div>
       {items.map((item) => {
@@ -179,6 +182,7 @@ function TodoCard({ items, removeTodoCard }) {
               <GrFormClose
                 id={item.id}
                 className="todo-icon"
+                /**Remove function takes the current component's id and deletes it. */
                 onClick={(e) => removeTodoCard(e.currentTarget.id)}
               />
             </div>
