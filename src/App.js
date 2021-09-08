@@ -172,7 +172,6 @@ function TodoCard({ items, removeTodoCard }) {
     console.log("value changed");
   }, [items.length]);
       {/**I first thought when the array's length changes, it should re-render the app to get array's new state. */}
-console.log(items);
   return (
     <div>
       {items.map((item) => {
@@ -186,6 +185,10 @@ console.log(items);
                 onClick={(e) => removeTodoCard(e.currentTarget.id)}
               />
             </div>
+            /**Creates a ToDoListApp that has todoList that stores todos as strings and a form that will allow to enter new todo. */
+            /**However, when the particular card is removed, the content of the card does not disappear so todos just moving cards, that is why even though the  wanted card is removed*/
+            /**(I see that it is removed because It is written on the console) since the content is not removed, it seems like the last card is deleted. I could not resolve this problem*/
+
             <ToDoListApp />
           </div>
         );

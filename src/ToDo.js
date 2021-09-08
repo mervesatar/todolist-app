@@ -18,8 +18,14 @@ const ToDo = ({ todo, handleToggle }) => {
             key={todo.id + todo.task}
             name="todo"
             value={todo.id}
+            /**When the Checkbox changed, todo's completed boolean changes. */
+
             checked={todo.complete}
+            /**This handle the changes. */
+
             onChange={handleClick}
+            /**The text of the checkbox.*/
+
             inputProps={todo.task}
           />
         }
