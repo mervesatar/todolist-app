@@ -5,7 +5,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 const ToDo = ({ todo, handleToggle }) => {
   const handleClick = (e) => {
     e.preventDefault();
-    handleToggle(e.currentTarget.id);
+    handleToggle(todo.id);
   };
 
   return (
@@ -14,8 +14,8 @@ const ToDo = ({ todo, handleToggle }) => {
         className={todo.complete ? "todo strike" : "todo"}
         control={
           <Checkbox
-            id={todo.id}
-            key={todo.id + todo.task}
+            todoId={todo.id}
+            key={todo.id}
             name="todo"
             value={todo.id}
             /**When the Checkbox changed, todo's completed boolean changes. */

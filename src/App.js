@@ -114,7 +114,7 @@ function About(props) {
   });
 
   const classes = useStyles();
-  const [items, setItems] = useState([{ id: 0 }]);
+  const [items, setItems] = useState([]);
   let ID = null;
   const generateID = () => {
     ID = Math.floor(Math.random() * 39399393);
@@ -130,12 +130,36 @@ function About(props) {
 
   const addItem = () => {
     generateID();
-    let copy = [...items];
-    copy = [...copy, { id: Math.floor(Math.random() * 39399393) }];
+    let copy = [...items]; 
+    copy = [...copy, { id: Math.floor(Math.random() * 39399393), toDoList:[{id:0,task:"Enter A Task",complete:false}]}];
     setItems(copy);
+// console.log(items);
+
     // setItems(oldArray => [...oldArray, {id:ID,
     // content:<ToDoListApp id={ID} removeTodoCard={removeTodoCard} />}]);
   };
+const handleChange=(id,tasks)=>{
+//   console.log(id);
+//   console.log("handleın içi");
+//   console.log(tasks);
+// console.log("idli index");
+// console.log(items.findIndex(item => item.id === id));
+const tempItems=[...items];
+tempItems[tempItems.findIndex(tempItem => tempItem.id === id)].toDoList=tasks;
+
+// console.log("itemler önce");
+
+// console.log(items);
+setItems(tempItems);
+
+// console.log("itemler sonra");
+
+// console.log(items);
+// console.log(items.indexOf(id));
+
+// console.log(items[items.indexOf(id)]);
+// console.log(id);
+}
 
   return (
     <div>
@@ -152,7 +176,7 @@ function About(props) {
       </Card>
       {/**Creates a ToDoCard with items as an array which has {id:number} structure. Also sends the removeTodoCard function to delete the particular Card.  */}
       <div>
-        <TodoCard items={items} removeTodoCard={removeTodoCard} />
+        <TodoCard items={items} removeTodoCard={removeTodoCard} handleChange={handleChange}/>
       </div>
 
       <Card className={classes.button}>
@@ -167,33 +191,34 @@ function About(props) {
 }
       {/**The TodoCard function is here. Takes items and removeTodoCard as props ans uses them here. */}
 
-function TodoCard({ items, removeTodoCard }) {
-  useEffect(() => {
-    console.log("value changed");
-  }, [items.length]);
+function TodoCard({ items, removeTodoCard,handleChange }) {
       {/**I first thought when the array's length changes, it should re-render the app to get array's new state. */}
-  return (
-    <div>
-      {items.map((item) => {
-        return (
-          <div className="container">
-            <div className="todo-icons">
-              <GrFormClose
-                id={item.id}
-                className="todo-icon"
-                /**Remove function takes the current component's id and deletes it. */
-                onClick={(e) => removeTodoCard(e.currentTarget.id)}
-              />
-            </div>
-           { /**Creates a ToDoListApp that has todoList that stores todos as strings and a form that will allow to enter new todo. */
-            /**However, when the particular card is removed, the content of the card does not disappear so todos just moving cards, that is why even though the  wanted card is removed*/
-            /**(I see that it is removed because It is written on the console) since the content is not removed, it seems like the last card is deleted. I could not resolve this problem*/}
+      return (
+        <div>
+    
+          {items.map((item) => {
+            
+            return (
+              <div className="container">
+                <div className="todo-icons">
+                  <GrFormClose
+                    id={item.id}
+                    className="todo-icon"
+                    /**Remove function takes the current component's id and deletes it. */
+                    onClick={(e) => removeTodoCard(e.currentTarget.id)}
+                  />
+                </div>
+               { /**Creates a ToDoListApp that has todoList that stores todos as strings and a form that will allow to enter new todo. */
+                /**However, when the particular card is removed, the content of the card does not disappear so todos just moving cards, that is why even though the  wanted card is removed*/
+                /**(I see that it is removed because It is written on the console) since the content is not removed, it seems like the last card is deleted. I could not resolve this problem*/}
+    
+                <ToDoListApp toDoList={item.toDoList} handleChange={handleChange} id={item.id} />
+              </div>
+            );
+          })}
+        </div>
+      );
+    }
 
-            <ToDoListApp />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-export default App;
+    export default App;
+    

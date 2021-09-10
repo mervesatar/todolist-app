@@ -1,36 +1,47 @@
 import "./App.css";
-import React, { useState } from "react";
-import ToDoList from "./ToDoList";
+import React, { useState, useEffect } from "react";
 import ToDoForm from "./ToDoForm";
-import data from "./data.json";
+import ToDo from "./ToDo";
 
-function ToDoListApp() {
-  const [toDoList, setToDoList] = useState(data);
-  /**Data is the json file for just to try out the code. It can be empty. */
-  const handleToggle = (id) => {
+function ToDoListApp({ toDoList, id, handleChange }) {
+  console.log(toDoList);
+  const handleToggle = (todoId) => {
     /**Id comes from todo after if there is a change on the completed boolean*/
     /**Looks at  todolist and if the given id is equal to the id in the map, it changes the value in the todo structure.*/
-
     let mapped = toDoList.map((task) => {
-      return task.id === Number(id)
+      return Number(task.id) === Number(todoId)
         ? { ...task, complete: !task.complete }
         : { ...task };
     });
-    setToDoList(mapped);
+    toDoList = [...mapped];
+    handleChange(id, toDoList);
   };
-  /**This add the new todo that comes from todoform.*/
-
+  const [state, setState] = useState();
   const addTask = (userInput) => {
     let copy = [...toDoList];
     copy = [
-      ...copy,
-      { id: toDoList.length + 1, task: userInput, complete: false },
+      ...toDoList,
+      { id: toDoList.length, task: userInput, complete: false },
     ];
-    setToDoList(copy);
+    // console.log("önce");
+    // console.log(toDoList);
+    toDoList = [...copy];
+    setState(state);
+    // console.log("sonra");
+    // console.log(toDoList);
+    // console.log("önce handle");
+    handleChange(id, toDoList);
+    // console.log("sonra handle");
+    // console.log(toDoList);
   };
+
   return (
     <div>
-      <ToDoList toDoList={toDoList} handleToggle={handleToggle} />
+      <div>
+        {toDoList.map((todo) => {
+          return <ToDo todo={todo} handleToggle={handleToggle} />;
+        })}
+      </div>
       <ToDoForm addTask={addTask} />
     </div>
   );
